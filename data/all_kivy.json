@@ -14520,7 +14520,7 @@
     "Widget": {
         "name": "Widget",
         "type": "WidgetMetaclass",
-        "import": "from kivy.uix.accordion import Widget",
+        "import": "from kivy.uix.widget import Widget",
         "help": "Widget class. See module documentation for more information.\n\n:Events:\n    `on_touch_down`: `(touch, )`\n        Fired when a new touch event occurs. `touch` is the touch object.\n    `on_touch_move`: `(touch, )`\n        Fired when an existing touch moves. `touch` is the touch object.\n    `on_touch_up`: `(touch, )`\n        Fired when an existing touch disappears. `touch` is the touch\n        object.\n    `on_kv_post`: `(base_widget, )`\n        Fired after all the kv rules associated with the widget\n        and all other widgets that are in any of those rules have had\n        all their kv rules applied. `base_widget` is the base-most widget\n        whose instantiation triggered the kv rules (i.e. the widget\n        instantiated from Python, e.g. ``MyWidget()``).\n\n        .. versionchanged:: 1.11.0\n\n.. warning::\n    Adding a `__del__` method to a class derived from Widget with Python\n    prior to 3.4 will disable automatic garbage collection for instances\n    of that class. This is because the Widget class creates reference\n    cycles, thereby `preventing garbage collection\n    <https://docs.python.org/2/library/gc.html#gc.garbage>`_.\n\n.. versionchanged:: 1.0.9\n    Everything related to event properties has been moved to the\n    :class:`~kivy.event.EventDispatcher`. Event properties can now be used\n    when constructing a simple class without subclassing :class:`Widget`.\n\n.. versionchanged:: 1.5.0\n    The constructor now accepts on_* arguments to automatically bind\n    callbacks to properties or events, as in the Kv language.",
         "mtype": "class",
         "parent": [],
@@ -29758,7 +29758,7 @@
     "Animation": {
         "name": "Animation",
         "type": "type",
-        "import": "from kivy.uix.accordion import Animation",
+        "import": "from kivy.animation import Animation",
         "help": "Create an animation definition that can be used to animate a Widget.\n\n:Parameters:\n    `duration` or `d`: float, defaults to 1.\n        Duration of the animation, in seconds.\n    `transition` or `t`: str or func\n        Transition function for animate properties. It can be the name of a\n        method from :class:`AnimationTransition`.\n    `step` or `s`: float\n        Step in milliseconds of the animation. Defaults to 0, which means\n        the animation is updated for every frame.\n\n        To update the animation less often, set the step value to a float.\n        For example, if you want to animate at 30 FPS, use s=1/30.\n\n:Events:\n    `on_start`: animation, widget\n        Fired when the animation is started on a widget.\n    `on_complete`: animation, widget\n        Fired when the animation is completed or stopped on a widget.\n    `on_progress`: animation, widget, progression\n        Fired when the progression of the animation is changing.\n\n.. versionchanged:: 1.4.0\n    Added s/step parameter.\n\n.. versionchanged:: 1.10.0\n    The default value of the step parameter was changed from 1/60. to 0.",
         "mtype": "class",
         "parent": [],
@@ -48092,7 +48092,7 @@
     "FloatLayout": {
         "name": "FloatLayout",
         "type": "WidgetMetaclass",
-        "import": "from kivy.uix.accordion import FloatLayout",
+        "import": "from kivy.uix.floatlayout import FloatLayout",
         "help": "Float layout class. See module documentation for more information.\n    ",
         "mtype": "class",
         "parent": [],
@@ -59409,7 +59409,7 @@
     "DictProperty": {
         "name": "DictProperty",
         "type": "type",
-        "import": "from kivy.uix.accordion import DictProperty",
+        "import": "from kivy.properties import DictProperty",
         "help": "DictProperty(defaultvalue=0, rebind=False, **kw)\nProperty that represents a dict.\n\n    :Parameters:\n        `defaultvalue`: dict, defaults to {}\n            Specifies the default value of the property.\n        `rebind`: bool, defaults to False\n            See :class:`ObjectProperty` for details.\n\n    .. versionchanged:: 1.9.0\n        `rebind` has been introduced.\n\n    .. warning::\n\n        Similar to :class:`ListProperty`, when assigning a dict to a\n        :class:`DictProperty`, the dict stored in the property is a shallow copy of the\n        dict and not the original dict. See :class:`ListProperty` for details.\n    ",
         "mtype": "class",
         "parent": [],
@@ -59419,7 +59419,7 @@
     "ListProperty": {
         "name": "ListProperty",
         "type": "type",
-        "import": "from kivy.uix.accordion import ListProperty",
+        "import": "from kivy.properties import ListProperty",
         "help": "ListProperty(defaultvalue=0, **kw)\nProperty that represents a list.\n\n    :Parameters:\n        `defaultvalue`: list, defaults to []\n            Specifies the default value of the property.\n\n    .. warning::\n\n        When assigning a list to a :class:`ListProperty`, the list stored in\n        the property is a shallow copy of the list and not the original list. This can\n        be demonstrated with the following example::\n\n            >>> class MyWidget(Widget):\n            >>>     my_list = ListProperty([])\n\n            >>> widget = MyWidget()\n            >>> my_list = [1, 5, {'hi': 'hello'}]\n            >>> widget.my_list = my_list\n            >>> print(my_list is widget.my_list)\n            False\n            >>> my_list.append(10)\n            >>> print(my_list, widget.my_list)\n            [1, 5, {'hi': 'hello'}, 10] [1, 5, {'hi': 'hello'}]\n\n        However, changes to nested levels will affect the property as well,\n        since the property uses a shallow copy of my_list.\n\n            >>> my_list[2]['hi'] = 'bye'\n            >>> print(my_list, widget.my_list)\n            [1, 5, {'hi': 'bye'}, 10] [1, 5, {'hi': 'bye'}]\n\n    ",
         "mtype": "class",
         "parent": [],
@@ -77249,7 +77249,7 @@
     "ObjectProperty": {
         "name": "ObjectProperty",
         "type": "type",
-        "import": "from kivy.uix.accordion import ObjectProperty",
+        "import": "from kivy.properties import ObjectProperty",
         "help": "ObjectProperty(defaultvalue=None, rebind=False, **kw)\nProperty that represents a Python object.\n\n    :Parameters:\n        `defaultvalue`: object type\n            Specifies the default value of the property.\n        `rebind`: bool, defaults to False\n            Whether kv rules using this object as an intermediate attribute\n            in a kv rule, will update the bound property when this object\n            changes.\n\n            That is the standard behavior is that if there's a kv rule\n            ``text: self.a.b.c.d``, where ``a``, ``b``, and ``c`` are\n            properties with ``rebind`` ``False`` and ``d`` is a\n            :class:`StringProperty`. Then when the rule is applied, ``text``\n            becomes bound only to ``d``. If ``a``, ``b``, or ``c`` change,\n            ``text`` still remains bound to ``d``. Furthermore, if any of them\n            were ``None`` when the rule was initially evaluated, e.g. ``b`` was\n            ``None``; then ``text`` is bound to ``b`` and will not become bound\n            to ``d`` even when ``b`` is changed to not be ``None``.\n\n            By setting ``rebind`` to ``True``, however, the rule will be\n            re-evaluated and all the properties rebound when that intermediate\n            property changes. E.g. in the example above, whenever ``b`` changes\n            or becomes not ``None`` if it was ``None`` before, ``text`` is\n            evaluated again and becomes rebound to ``d``. The overall result is\n            that ``text`` is now bound to all the properties among ``a``,\n            ``b``, or ``c`` that have ``rebind`` set to ``True``.\n        `\\*\\*kwargs`: a list of keyword arguments\n            `baseclass`\n                If kwargs includes a `baseclass` argument, this value will be\n                used for validation: `isinstance(value, kwargs['baseclass'])`.\n\n    .. warning::\n\n        To mark the property as changed, you must reassign a new python object.\n\n    .. versionchanged:: 1.9.0\n        `rebind` has been introduced.\n\n    .. versionchanged:: 1.7.0\n\n        `baseclass` parameter added.\n    ",
         "mtype": "class",
         "parent": [],
@@ -77259,7 +77259,7 @@
     "OptionProperty": {
         "name": "OptionProperty",
         "type": "type",
-        "import": "from kivy.uix.accordion import OptionProperty",
+        "import": "from kivy.properties import OptionProperty",
         "help": "OptionProperty(*largs, **kw)\nProperty that represents a string from a predefined list of valid\n    options.\n\n    If the string set in the property is not in the list of valid options\n    (passed at property creation time), a ValueError exception will be raised.\n\n    :Parameters:\n        `default`: any valid type in the list of options\n            Specifies the default value of the property.\n        `\\*\\*kwargs`: a list of keyword arguments\n            Should include an `options` parameter specifying a list (not tuple)\n            of valid options.\n\n    For example::\n\n        class MyWidget(Widget):\n            state = OptionProperty(\"None\", options=[\"On\", \"Off\", \"None\"])\n\n    ",
         "mtype": "class",
         "parent": [],
@@ -77269,7 +77269,7 @@
     "StringProperty": {
         "name": "StringProperty",
         "type": "type",
-        "import": "from kivy.uix.accordion import StringProperty",
+        "import": "from kivy.properties import StringProperty",
         "help": "StringProperty(defaultvalue=u'', **kw)\nProperty that represents a string value.\n\n    :Parameters:\n        `defaultvalue`: string, defaults to ''\n            Specifies the default value of the property.\n\n    ",
         "mtype": "class",
         "parent": [],
@@ -83649,7 +83649,7 @@
     "BooleanProperty": {
         "name": "BooleanProperty",
         "type": "type",
-        "import": "from kivy.uix.accordion import BooleanProperty",
+        "import": "from kivy.properties import BooleanProperty",
         "help": "BooleanProperty(defaultvalue=True, **kw)\nProperty that represents only a boolean value.\n\n    :Parameters:\n        `defaultvalue`: boolean\n            Specifies the default value of the property.\n    ",
         "mtype": "class",
         "parent": [],
@@ -83659,7 +83659,7 @@
     "NumericProperty": {
         "name": "NumericProperty",
         "type": "type",
-        "import": "from kivy.uix.accordion import NumericProperty",
+        "import": "from kivy.properties import NumericProperty",
         "help": "NumericProperty(defaultvalue=0, **kw)\nProperty that represents a numeric value.\n\n    It only accepts the int or float numeric data type or a string that can be\n    converted to a number as shown below. For other numeric types use ObjectProperty\n    or use errorhandler to convert it to an int/float.\n\n    It does not support numpy numbers so they must be manually converted to int/float.\n    E.g. ``widget.num = np.arange(4)[0]`` will raise an exception. Numpy arrays are not\n    supported at all, even by ObjectProperty because their comparison does not return\n    a bool. But if you must use a Kivy property, use a ObjectProperty with ``comparator``\n    set to ``np.array_equal``. E.g.::\n\n        >>> class A(EventDispatcher):\n        ...     data = ObjectProperty(comparator=np.array_equal)\n        >>> a = A()\n        >>> a.bind(data=print)\n        >>> a.data = np.arange(2)\n        <__main__.A object at 0x000001C839B50208> [0 1]\n        >>> a.data = np.arange(3)\n        <__main__.A object at 0x000001C839B50208> [0 1 2]\n\n    :Parameters:\n        `defaultvalue`: int or float, defaults to 0\n            Specifies the default value of the property.\n\n    >>> wid = Widget()\n    >>> wid.x = 42\n    >>> print(wid.x)\n    42\n    >>> wid.x = \"plop\"\n     Traceback (most recent call last):\n       File \"<stdin>\", line 1, in <module>\n       File \"properties.pyx\", line 93, in kivy.properties.Property.__set__\n       File \"properties.pyx\", line 111, in kivy.properties.Property.set\n       File \"properties.pyx\", line 159, in kivy.properties.NumericProperty.check\n     ValueError: NumericProperty accept only int/float\n\n    .. versionchanged:: 1.4.1\n        NumericProperty can now accept custom text and tuple value to indicate a\n        type, like \"in\", \"pt\", \"px\", \"cm\", \"mm\", in the format: '10pt' or (10,\n        'pt').\n\n    ",
         "mtype": "class",
         "parent": [],
